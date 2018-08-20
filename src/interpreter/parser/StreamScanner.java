@@ -19,6 +19,7 @@ public class StreamScanner implements Scanner {
 	}
 
 	private String skip() {
+		System.out.println("INIZIO (StreamScnner) skip"); //CANCELLA
 		String skipped;
 		int regionEnd = matcher.regionEnd();
 		Pattern pat = matcher.pattern();
@@ -27,12 +28,15 @@ public class StreamScanner implements Scanner {
 		matcher.lookingAt();
 		skipped = matcher.group();
 		reset(end, regionEnd, pat);
+		System.out.println("FINE (parseScanner) skip"); //CANCELLA
 		return skipped;
 	}
 
 	public StreamScanner(String regex, Reader reader) {
+		System.out.println("INIZIO (StreamScanner) costruttore"); //CANCELLA
 		matcher = Pattern.compile(regex).matcher("");
 		buffReader = new BufferedReader(reader);
+		System.out.println("FINE (streamScanner) costruttore"); //CANCELLA
 	}
 
 	@Override
@@ -67,16 +71,21 @@ public class StreamScanner implements Scanner {
 
 	@Override
 	public String group() {
+		System.out.println("(StreamScanner) group"); //CANCELLA
+		System.out.println("	result.group: "+result.group()); //CANCELLA
 		return result.group();
 	}
 
 	@Override
 	public String group(int group) {
+		System.out.println("(StreamScanner) group con intero"); //CANCELLA
+		System.out.println("	"+group); //CANCELLA
 		return result.group(group);
 	}
 
 	@Override
 	public void close() throws ScannerException {
+		System.out.println("(StreamScanner) close"); //CANCELLA
 		try {
 			buffReader.close();
 		} catch (IOException e) {
