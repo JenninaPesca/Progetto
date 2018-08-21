@@ -12,7 +12,7 @@ Prog ::= StmtSeq 'EOF'
  Exp ::= Add ('::' Exp)?
  Add ::= Mul ('+' Mul)*
  Mul::= Atom ('*' Atom)*
- Atom ::= '-' Atom | '[' ExpSeq ']' | NUM | ID | '(' Exp ')'
+ Atom ::= '-' Atom | '[' ExpSeq ']'| BIN | NUM | ID | '(' Exp ')'
 
 */
 
@@ -233,6 +233,12 @@ public class StreamParser implements Parser {
 		switch (tokenizer.tokenType()) {
 		default:
 			unexpectedTokenError();
+		/*--fatto da me-- inizio*/
+		case BIN:
+			System.out.println("FINE (StreamParser) ParseAtom caso BIN"); //CANCELLA
+			System.out.println("    chiamo parseBin");
+			return parseBin();
+		/*--fatto da me-- fine*/
 		case NUM:
 			System.out.println("FINE (StreamParser) ParseAtom caso NUM"); //CANCELLA
 			System.out.println("    chiamo parseNum");
@@ -255,7 +261,20 @@ public class StreamParser implements Parser {
 			return parseRoundPar();
 		}
 	}
-
+	
+	/*--fatto da me-- inizio*/
+	private BinLiteral parseBin() throws ParserException {
+		System.out.println("INIZIO (StreamParser) ParseBin "); //CANCELLA
+		System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
+		int val = tokenizer.binValue();
+		System.out.println("	val: "+val); //CANCELLA
+		System.out.println("     chiamo consume con BIN");
+		consume(BIN); // or tryNext();
+		System.out.println("FINE (StreamParser) parseNum");
+		return new BinLiteral(val);
+	}
+	/*--fatto da me-- fine*/
+	
 	private IntLiteral parseNum() throws ParserException {
 		System.out.println("INIZIO (StreamParser) ParseNUM "); //CANCELLA
 		System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA

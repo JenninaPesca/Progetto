@@ -15,17 +15,34 @@ public class StreamTokenizer implements Tokenizer {
 									// token
 	private TokenType tokenType;
 	private String tokenString;
+	private int binValue; //--fatto da me--
 	private int intValue;
 	private final Scanner scanner;
 
+	/*--fatto da me-- inizio*/
+	private int parseBin(String tokenString) {
+		int i=tokenString.length();
+		while (i>2) {
+			char c = tokenString.charAt(i-1); //i-1 perchè l'ultimo indice è la lunghezza della stringa-1 dato che gli indici iniziano da 0 e la lunghezza da 1
+			if (c == '1') {
+				binValue = (int) (binValue + Math.pow(2.0, (double)((tokenString.length())-i)));
+			}
+			i--;			
+		}
+		return binValue;
+	}
+	/*fatto da me fine*/
+	
 	static {
 		// remark: groups must correspond to the ordinal of the corresponding
 		// token type
-		final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 1
-		final String numRegEx = "(0|[1-9][0-9]*)"; // group 2
-		final String skipRegEx = "(\\s+|//.*)"; // group 3
+
+		final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 2
+		final String binNumRegEx = "(0[bB][01]+)"; //--fatto da me-- espressione regolare per i numeri binari group1
+		final String numRegEx = "(0|[1-9][0-9]*)"; // group 3
+		final String skipRegEx = "(\\s+|//.*)"; // group 4
 		final String symbolRegEx = "\\+|\\*|=|\\(|\\)|;|,|\\{|\\}|-|::|:|\\[|\\]";
-		regEx = identRegEx + "|" + numRegEx + "|" + skipRegEx + "|" + symbolRegEx;
+		regEx = identRegEx + "|" + binNumRegEx + "|"  /*fatto da me*/ + numRegEx + "|" + skipRegEx + "|" + symbolRegEx;
 	}
 
 	static {
@@ -69,6 +86,17 @@ public class StreamTokenizer implements Tokenizer {
 			System.out.println("FINE (StreamTokenizer) checkType ident"); //CANCELLA
 			return;
 		}
+		/*--fatto da me-- inizio*/
+		System.out.println(" 	/////////ATTENZIONE//////chiamo scanner.group con "+ BIN.ordinal()); //CANCELLA
+		if (scanner.group(BIN.ordinal()) != null) { // BIN
+			tokenType = BIN;
+			System.out.println("////////prima di integer.parseint////////////");
+			binValue = parseBin(tokenString);
+			System.out.println("                                                    BIN VALUE"+binValue);
+			System.out.println("FINE (StreamTokenizer) checkType bin"); //CANCELLA
+			return;
+		}
+		/*--fatto da me-- fine*/
 		System.out.println(" 	chiamo scanner.group con "+ NUM.ordinal()); //CANCELLA
 		if (scanner.group(NUM.ordinal()) != null) { // NUM
 			tokenType = NUM;
@@ -134,6 +162,17 @@ public class StreamTokenizer implements Tokenizer {
 		return tokenString;
 	}
 
+	/*--fatto da me inizio--*/
+	@Override
+	public int binValue() {
+		System.out.println("INIZIO (StreamTokenizer) intValue"); //CANCELLA
+		System.out.println(" 	chiamo checkvalidtoken con num"); //CANCELLA
+		checkValidToken(BIN);
+		System.out.println("FINE (StreamTokenizer) intValue"); //CANCELLA
+		return binValue;
+	}
+	/*fatto da me fine*/
+	
 	@Override
 	public int intValue() {
 		System.out.println("INIZIO (StreamTokenizer) intValue"); //CANCELLA
