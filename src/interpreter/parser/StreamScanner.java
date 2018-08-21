@@ -14,8 +14,10 @@ public class StreamScanner implements Scanner {
 	private MatchResult result = Pattern.compile("").matcher("").toMatchResult();
 
 	private void reset(int start, int end, Pattern pat) {
+		System.out.println("INIZIO (StreamScnner) reset con start: "+start+" end: "+end+" pattern "+pat); //CANCELLA
 		matcher.region(start, end);
 		matcher.usePattern(pat);
+		System.out.println("FINE (StreamScnner) reset"); //CANCELLA
 	}
 
 	private String skip() {
@@ -27,6 +29,7 @@ public class StreamScanner implements Scanner {
 		reset(matcher.regionStart(), end, any);
 		matcher.lookingAt();
 		skipped = matcher.group();
+		System.out.println("	matcher.group: "+skipped); //CANCELLA
 		reset(end, regionEnd, pat);
 		System.out.println("FINE (parseScanner) skip"); //CANCELLA
 		return skipped;
@@ -41,31 +44,40 @@ public class StreamScanner implements Scanner {
 
 	@Override
 	public void next() throws ScannerException {
+		System.out.println("INIZIO (StreamScnner) next"); //CANCELLA
 		if (!hasNext())
 			throw new ScannerException("Unexpected end of the stream");
 		boolean matched = matcher.lookingAt();
 		result = matcher.toMatchResult();
+		System.out.println(" result(matcher.toMatchResult(): "+result); //CANCELLA
 		if (!matched)
 			throw new ScannerException("Unrecognized string " + skip());
 		else
+			System.out.println(" 	sposto la regione con inizio: "+matcher.end()); //CANCELLA
 			matcher.region(matcher.end(), matcher.regionEnd());
+		System.out.println("FINE (StreamScnner) next"); //CANCELLA
 	}
 
 	@Override
 	public boolean hasNext() throws ScannerException {
+		System.out.println("INIZIO (StreamScnner) hasnext"); //CANCELLA
 		String line;
 		if (matcher.regionStart() == matcher.regionEnd()) {
 			try {
+				System.out.println(" 	aspetta input"); //CANCELLA
 				line = buffReader.readLine();
+				System.out.println(" 	line: "+line); //CANCELLA
 			} catch (IOException e) {
 				throw new ScannerException(e);
 			}
 			if (line == null) {
 				matcher.reset("");
+				System.out.println("FINE (StreamScnner) hasnext false"); //CANCELLA
 				return false;
 			}
 			matcher.reset(line + " ");
 		}
+		System.out.println("FINE (StreamScnner) hasNext true"); //CANCELLA
 		return true;
 	}
 
@@ -91,6 +103,7 @@ public class StreamScanner implements Scanner {
 		} catch (IOException e) {
 			throw new ScannerException(e);
 		}
+		
 	}
 
 }
