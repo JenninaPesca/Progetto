@@ -163,7 +163,6 @@ public class StreamTokenizer implements Tokenizer {
 	}
 
 	/*--fatto da me inizio--*/
-	@Override
 	public int binValue() {
 		System.out.println("INIZIO (StreamTokenizer) intValue"); //CANCELLA
 		System.out.println(" 	chiamo checkvalidtoken con num"); //CANCELLA
