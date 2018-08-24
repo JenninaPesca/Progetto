@@ -266,6 +266,8 @@ public class StreamParser implements Parser {
 	private BinLiteral parseBin() throws ParserException {
 		System.out.println("INIZIO (StreamParser) ParseBin "); //CANCELLA
 		System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
+		String pref = (tokenizer.tokenString()).substring(0, 1);
+		System.out.println("                              AAAAAAAAAAAAAAAAAA"+pref);
 		int val = tokenizer.binValue();
 		System.out.println("	val: "+val); //CANCELLA
 		System.out.println("     chiamo consume con BIN");
