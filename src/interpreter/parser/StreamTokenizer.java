@@ -19,7 +19,7 @@ public class StreamTokenizer implements Tokenizer {
 	private int intValue;
 	private final Scanner scanner;
 
-	/*--fatto da me-- inizio*/
+	/*--fatto da me-- inizio   modificca: deve chiamare il metodoche fa questa roba (?)*/  
 	private int parseBin(String tokenString) {
 		int i=tokenString.length();
 		while (i>2) {
