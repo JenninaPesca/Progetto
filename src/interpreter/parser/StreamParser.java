@@ -264,27 +264,27 @@ public class StreamParser implements Parser {
 	
 	/*--fatto da me-- inizio*/
 	private BinLiteral parseBin() throws ParserException {
-		System.out.println("INIZIO (StreamParser) ParseBin "); //CANCELLA
-		System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
-		String pref = (tokenizer.tokenString()).substring(0, 1);
-		System.out.println("                              AAAAAAAAAAAAAAAAAA"+pref);
+System.out.println("INIZIO (StreamParser) ParseBin "); //CANCELLA
+System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
+		String pref = (tokenizer.tokenString()).substring(0, 2);
+System.out.println("	pref: "+pref);
 		int val = tokenizer.binValue();
-		System.out.println("	val: "+val); //CANCELLA
-		System.out.println("     chiamo consume con BIN");
+System.out.println("	val: "+val); //CANCELLA
+System.out.println("     chiamo consume con BIN");
 		consume(BIN); // or tryNext();
-		System.out.println("FINE (StreamParser) parseNum");
-		return new BinLiteral(val);
+System.out.println("FINE (StreamParser) parseNum");
+		return new BinLiteral(pref, val);
 	}
 	/*--fatto da me-- fine*/
 	
 	private IntLiteral parseNum() throws ParserException {
-		System.out.println("INIZIO (StreamParser) ParseNUM "); //CANCELLA
-		System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
+System.out.println("INIZIO (StreamParser) ParseNUM "); //CANCELLA
+System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
 		int val = tokenizer.intValue();
-		System.out.println("	val: "+val); //CANCELLA
-		System.out.println("     chiamo consume con NUM");
+System.out.println("	val: "+val); //CANCELLA
+System.out.println("     chiamo consume con NUM");
 		consume(NUM); // or tryNext();
-		System.out.println("FINE (StreamParser) parseNum");
+System.out.println("FINE (StreamParser) parseNum");
 		return new IntLiteral(val);
 	}
 

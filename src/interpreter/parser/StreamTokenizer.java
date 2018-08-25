@@ -19,19 +19,6 @@ public class StreamTokenizer implements Tokenizer {
 	private int intValue;
 	private final Scanner scanner;
 
-	/*--fatto da me-- inizio   modificca: deve chiamare il metodoche fa questa roba (?)*/  
-	private int parseBin(String tokenString) {
-		int i=tokenString.length();
-		while (i>2) {
-			char c = tokenString.charAt(i-1); //i-1 perchè l'ultimo indice è la lunghezza della stringa-1 dato che gli indici iniziano da 0 e la lunghezza da 1
-			if (c == '1') {
-				binValue = (int) (binValue + Math.pow(2.0, (double)((tokenString.length())-i)));
-			}
-			i--;			
-		}
-		return binValue;
-	}
-	/*fatto da me fine*/
 	
 	static {
 		// remark: groups must correspond to the ordinal of the corresponding
@@ -74,34 +61,50 @@ public class StreamTokenizer implements Tokenizer {
 		System.out.println("FINE (StreamTokenizer) costruttore"); //CANCELLA
 	}
 
+/*fatto da me*/
+//metodo che converte la stringa binaria in un numero intero
+	private int parseBin(String tokenString) {
+		int i=tokenString.length();
+		int binValue = 0;
+		while (i>2) {
+			char c = tokenString.charAt(i-1); //i-1 perchè l'ultimo indice è la lunghezza della stringa-1 dato che gli indici iniziano da 0 e la lunghezza da 1
+			if (c == '1') {
+				binValue = (int) (binValue + Math.pow(2.0, (double)((tokenString.length())-i)));
+			}
+			i--;			
+		}
+		return binValue;
+	}
+	
 	private void checkType() {
-		System.out.println("INIZIO(StreamTokenizer) checkType"); //CANCELLA
-		System.out.println(" 	chiamo scanner.group"); //CANCELLA
+System.out.println("INIZIO(StreamTokenizer) checkType"); //CANCELLA
+System.out.println(" 	chiamo scanner.group"); //CANCELLA
 		tokenString = scanner.group();
-		System.out.println(" 	chiamo scanner.group con "+ IDENT.ordinal()); //CANCELLA
+System.out.println(" 	chiamo scanner.group con "+ IDENT.ordinal()); //CANCELLA
 		if (scanner.group(IDENT.ordinal()) != null) { // IDENT or a keyword
-			tokenType = keywords.get(tokenString);
+			tokenType = keywords.get(tokenString); //controlla se è una keyworld ->se non è una keyword allora è un ident
 			if (tokenType == null)
 				tokenType = IDENT;
-			System.out.println("FINE (StreamTokenizer) checkType ident"); //CANCELLA
+System.out.println("FINE (StreamTokenizer) checkType ident"); //CANCELLA
 			return;
 		}
 		/*--fatto da me-- inizio*/
-		System.out.println(" 	/////////ATTENZIONE//////chiamo scanner.group con "+ BIN.ordinal()); //CANCELLA
+System.out.println("	chiamo scanner.group con "+ BIN.ordinal()); //CANCELLA
 		if (scanner.group(BIN.ordinal()) != null) { // BIN
 			tokenType = BIN;
-			System.out.println("////////prima di integer.parseint////////////");
-			binValue = parseBin(tokenString);
-			System.out.println("                                                    BIN VALUE"+binValue);
-			System.out.println("FINE (StreamTokenizer) checkType bin"); //CANCELLA
+System.out.println("	prima di integer.parsebin");
+			binValue = parseBin(tokenString); //modifica: il metodo deve essere dentro la classe BinLiteral??
+														 // secondo me no perchè non modifica le variabili della classe quindi lo metto come metodo in questa classe
+System.out.println("	BIN VALUE"+binValue);
+System.out.println("FINE (StreamTokenizer) checkType bin"); //CANCELLA
 			return;
 		}
 		/*--fatto da me-- fine*/
-		System.out.println(" 	chiamo scanner.group con "+ NUM.ordinal()); //CANCELLA
+System.out.println(" 	chiamo scanner.group con "+ NUM.ordinal()); //CANCELLA
 		if (scanner.group(NUM.ordinal()) != null) { // NUM
 			tokenType = NUM;
 			intValue = Integer.parseInt(tokenString);
-			System.out.println("FINE (StreamTokenizer) checkType num"); //CANCELLA
+System.out.println("FINE (StreamTokenizer) checkType num"); //CANCELLA
 			return;
 		}
 		System.out.println(" 	chiamo scanner.group con "+ SKIP.ordinal()); //CANCELLA
