@@ -29,6 +29,8 @@ public class StreamTokenizer implements Tokenizer {
 	}
 
 	static {
+		keywords.put("true", TRUE); //fatto da me-- aggiungo la keyword true
+		keywords.put("false", FALSE); //fatto da me-- aggiungo la keyword false
 		keywords.put("for", FOR);
 		keywords.put("print", PRINT);
 		keywords.put("var", VAR);
@@ -95,6 +97,7 @@ public class StreamTokenizer implements Tokenizer {
 			tokenType = null;
 			tokenString = "";
 			try {
+				//osserva: caso eof, perchè non lo prende??
 				if (hasNext && !scanner.hasNext()) {
 					hasNext = false;
 					return tokenType = EOF;
@@ -127,19 +130,19 @@ public class StreamTokenizer implements Tokenizer {
 
 	@Override
 	public String tokenString() {
-		System.out.println("INIZIO (StreamTokenizer) tokenString"); //CANCELLA
-		System.out.println(" 	chiamo checkvalidtoken"); //CANCELLA
+System.out.println("INIZIO (StreamTokenizer) tokenString"); //CANCELLA
+System.out.println(" 	chiamo checkvalidtoken"); //CANCELLA
 		checkValidToken();
-		System.out.println("FINE (StreamTokenizer) tokenString"); //CANCELLA
+System.out.println("FINE (StreamTokenizer) tokenString"); //CANCELLA
 		return tokenString;
 	}
 
 	@Override
 	public int intValue() {
-		System.out.println("INIZIO (StreamTokenizer) intValue"); //CANCELLA
-		System.out.println(" 	chiamo checkvalidtoken con num"); //CANCELLA
+System.out.println("INIZIO (StreamTokenizer) intValue"); //CANCELLA
+System.out.println(" 	chiamo checkvalidtoken con num"); //CANCELLA
 		checkValidToken(NUM);
-		System.out.println("FINE (StreamTokenizer) intValue"); //CANCELLA
+System.out.println("FINE (StreamTokenizer) intValue"); //CANCELLA
 		return intValue;
 	}
 
