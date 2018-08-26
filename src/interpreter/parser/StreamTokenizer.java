@@ -32,9 +32,19 @@ public class StreamTokenizer implements Tokenizer {
 		keywords.put("for", FOR);
 		keywords.put("print", PRINT);
 		keywords.put("var", VAR);
+		keywords.put("opt", OPT);
+		keywords.put("empty", EMPTY);
+		keywords.put("def", DEF);
+		keywords.put("get", GET);
+		keywords.put("if", IF);
+		keywords.put("else", ELSE);
+		keywords.put("do", DO);
+		keywords.put("while", WHILE);
 	}
 
 	static {
+		symbols.put("&&", LOGICAND);
+		symbols.put("==", EQUALITY);
 		symbols.put("+", PLUS);
 		symbols.put("*", TIMES);
 		symbols.put("::", PREFIX);

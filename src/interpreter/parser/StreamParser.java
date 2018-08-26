@@ -7,13 +7,18 @@ import interpreter.parser.ast.*;
 /*
 Prog ::= StmtSeq 'EOF'
  StmtSeq ::= Stmt (';' StmtSeq)?
- Stmt ::= 'var'? ID '=' Exp | 'print' Exp |  'for' ID ':' Exp '{' StmtSeq '}'
+ Stmt ::= 'var'? ID '=' Exp | 'print' Exp |  'for' ID ':' Exp '{' StmtSeq '}' | 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StamtSeq '}')? 
+ 			| 'do' '{' StamtSeq '}' 'while' '('Exp')'
  ExpSeq ::= Exp (',' ExpSeq)?
- Exp ::= Add ('::' Exp)?
+ Exp ::= Equality ('&&' Exp)?  
+ Equality ::= Prefix ('==' Prefix)*
+ Prefix ::= Add ('::' Add)*
  Add ::= Mul ('+' Mul)*
  Mul::= Atom ('*' Atom)*
- Atom ::= '-' Atom | '[' ExpSeq ']' | NUM | ID | '(' Exp ')'
-
+ Atom ::= '-' Atom | '!' Atom | 'opt' Atom | 'empty' Atom | 'def' Atom | 'get' Atom | '[' ExpSeq ']' | BIN | NUM | ID  | '(' Exp ')'
+ 
+ //modifica: Equality nome adeguato a ==??
+ //controlla: grammatica corretta?
 */
 
 public class StreamParser implements Parser {
@@ -123,6 +128,12 @@ public class StreamParser implements Parser {
 			System.out.println("FINE (StreamParser) ParseStmt caso PRINT"); //CANCELLA
 			System.out.println("    chiamo parsePrintStmt");
 			return parseForEachStmt();
+		/*fatto da me inizio*/
+		case IF:
+			return parseIfElseStmt();
+		case DO:
+			return parseDoWhileStmt();
+		/*fatto da me fine*/
 		}
 	}
 
@@ -180,22 +191,53 @@ public class StreamParser implements Parser {
 		System.out.println("FINE (StreamParser) parseForEachStmt");
 		return new ForEachStmt(ident, exp, stmts);
 	}
-
+	//fatto da me inizio  modifica:da fare
+	private IfElseStmt parseIfElseStmt() throws ParserException {
+		consume(FOR); // or tryNext();
+		Ident ident = parseIdent();
+		consume(IN);
+		Exp exp = parseExp();
+		consume(OPEN_BLOCK);
+		StmtSeq stmts = parseStmtSeq();
+		consume(CLOSE_BLOCK);
+		return new IfElseStmt(Exp, stmt, stmts);
+	}
+	
+	private 
+	// fatto da me inizio
 	private Exp parseExp() throws ParserException {
 		System.out.println("INIZIO (StreamParser) parseExp");
 		System.out.println("	chiamo parseAdd");
-		Exp exp = parseAdd();
+		Exp exp = parseEquality();
 		System.out.println("	exp: "+exp);
-		if (tokenizer.tokenType() == PREFIX) {
+		if (tokenizer.tokenType() == LOGICAND) {
 			System.out.println("	chiamo tryNext");
 			tryNext();
 			System.out.println("	chiamo parseExp");
-			exp = new Prefix(exp, parseExp());
+			exp = new LogicAnd(exp, parseExp());
 		}
 		System.out.println("FINE (StreamParser) parseExp exp di tipo Prefix: "+ exp);
 		return exp;
 	}
 
+	private Exp parseEquality() throws ParserException {
+		Exp exp = parsePrefix();
+		while (tokenizer.tokenType() == EQUALITY) {
+			tryNext();
+			exp = new Equality(exp, parsePrefix());
+		}
+		return exp;
+	}
+	
+	private Exp parsePrefix() throws ParserException {
+		Exp exp = parseAdd();
+		while (tokenizer.tokenType() == PREFIX) {
+			tryNext();
+			exp = new Prefix(exp, parseAdd());
+		}
+		return exp;
+	}
+// fatto da me fine
 	private Exp parseAdd() throws ParserException {
 		System.out.println("INIZIO (StreamParser) parseAdd");
 		System.out.println("	chiamo parseMul");
