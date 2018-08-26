@@ -191,7 +191,7 @@ public class StreamParser implements Parser {
 		System.out.println("INIZIO parseIfElseStmt");
 		consume(IF); // or tryNext();
 		consume(OPEN_PAR);
-		System.out.println("       chiamo parseexp");
+//		System.out.println("       chiamo parseexp");
 		Exp exp = parseExp();
 		System.out.println("      consume close:par");
 		consume(CLOSE_PAR);
@@ -223,17 +223,19 @@ public class StreamParser implements Parser {
 	}
 	// fatto da me inizio
 	private Exp parseExp() throws ParserException {
-		System.out.println("INIZIO (StreamParser) parseExp");
-		System.out.println("	chiamo parseAdd");
+//		System.out.println("INIZIO (StreamParser) parseExp");
+//		System.out.println("	chiamo parseAdd");
 		Exp exp = parseEquality();
 		System.out.println("	exp: "+exp);
+		tryNext(); //vado avanti(?)
+		System.out.println("        dopo trynext :"+tokenizer.tokenType());
 		if (tokenizer.tokenType() == LOGICAND) {
-			System.out.println("	chiamo tryNext");
+//			System.out.println("	chiamo tryNext");
 			tryNext();
-			System.out.println("	chiamo parseExp");
-			exp = new LogicAnd(exp, parseExp());
+//			System.out.println("	chiamo parseExp");
+			exp = new LogicAnd(exp, parseEquality());
 		}
-		System.out.println("FINE (StreamParser) parseExp exp di tipo Prefix: "+ exp);
+//		System.out.println("FINE (StreamParser) parseExp exp di tipo Prefix: "+ exp);
 		return exp;
 	}
 
