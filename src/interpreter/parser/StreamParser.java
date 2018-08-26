@@ -301,6 +301,18 @@ public class StreamParser implements Parser {
 			//System.out.println("FINE (StreamParser) ParseAtom caso IDENT"); //CANCELLA
 			//System.out.println("    chiamo parseIdent");
 			return parseIdent();
+		/*fatto da me inizio*/ //'!' Atom | 'opt' Atom | 'empty' Atom | 'def' Atom | 'get' Atom 
+		case BANG:
+			return parseBang();
+		case OPT:
+			return parseOpt();
+		case EMPTY:
+			return parseEmpty();
+		case DEF:
+			return parseDef();
+		case GET:
+			return parseGet();
+		/*fatto da me fine*/
 		case MINUS:
 			//System.out.println("FINE (StreamParser) ParseAtom caso MINUS"); //CANCELLA
 			//System.out.println("    chiamo parseMinus");
@@ -337,7 +349,34 @@ public class StreamParser implements Parser {
 		//System.out.println("FINE (StreamParser) ParseNUM "); //CANCELLA
 		return new SimpleIdent(name);
 	}
-
+	
+	/*fatto da me inizio*/
+	private Bang parseBang() throws ParserException {
+		consume(BANG);
+		return new Bang(parseAtom()); //controlla: perchè parse atom??
+									//perchè se devo usare operatore binario devo usare le parentesi (per le precedenze) che sono dentro ad atom
+	}
+	
+	private Opt parseOpt() throws ParserException {
+		consume(OPT);
+		return new Opt(parseAtom());
+	}
+	
+	private Empty parseEmpty() throws ParserException {
+		consume(EMPTY);
+		return new Empty(parseAtom());
+	}
+	
+	private Def parseDef() throws ParserException {
+		consume(DEF);
+		return new Def(parseAtom());
+	}
+	
+	private Get parseGet() throws ParserException {
+		consume(GET);
+		return new Get(parseAtom());
+	}
+	/*fatto da me fine*/
 	private Sign parseMinus() throws ParserException {
 		//System.out.println("INIZIO (StreamParser) parseMinus "); //CANCELLA
 		//System.out.println("	chiamo consume con MINUS"); //CANCELLA
