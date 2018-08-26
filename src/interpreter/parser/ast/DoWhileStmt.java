@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import interpreter.visitors.Visitor;
 
-public class DoWhileStmt {
+public class DoWhileStmt implements Stmt {
 	private final StmtSeq block; //sequenza di stmt da eseguire
 	private final Exp exp; //condizione while controlla:deve essere booleana??
 	
@@ -17,10 +17,10 @@ public class DoWhileStmt {
 	public String toString() {
 		return getClass().getSimpleName() + "(" + block + "," + exp + ")";
 	}
-/*
+
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return null; //da rifare
 	}
-	*/
+
 }

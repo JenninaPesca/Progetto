@@ -7,15 +7,15 @@ import interpreter.parser.ast.*;
 /*
 Prog ::= StmtSeq 'EOF'
  StmtSeq ::= Stmt (';' StmtSeq)?
- Stmt ::= 'var'? ID '=' Exp | 'print' Exp |  'for' ID ':' Exp '{' StmtSeq '}' | 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StamtSeq '}')? 
- 			| 'do' '{' StamtSeq '}' 'while' '('Exp')'
+ Stmt ::= 'var'? ID '=' Exp | 'print' Exp |  'for' ID ':' Exp '{' StmtSeq '}' | 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StmtSeq '}')? 
+ 			| 'do' '{' StmtSeq '}' 'while' '('Exp')'
  ExpSeq ::= Exp (',' ExpSeq)?
- Exp ::= Equality ('&&' Exp)?  
- Equality ::= Prefix ('==' Prefix)*
- Prefix ::= Add ('::' Add)*
- Add ::= Mul ('+' Mul)*
- Mul::= Atom ('*' Atom)*
- Atom ::= '-' Atom | '!' Atom | 'opt' Atom | 'empty' Atom | 'def' Atom | 'get' Atom | '[' ExpSeq ']' | BIN | NUM | ID  | '(' Exp ')'
+ Exp ::= Equality ('&&' Exp)? | Equality
+ Equality ::= Prefix ('==' Equality)* | Prefix
+ Prefix ::= Add ('::' Prefix)* | Add
+ Add ::= Mul ('+' Add)* | Mul
+ Mul::= Atom ('*' Mul)* | Atom
+ Atom ::= '-' Atom | '!' Atom | 'opt' Atom | 'empty' Atom | 'def' Atom | 'get' Atom | '[' ExpSeq ']' | BOOL | BIN | NUM | ID  | '(' Exp ')'
  
  //modifica: Equality nome adeguato a ==??
  //controlla: grammatica corretta?
@@ -132,7 +132,7 @@ public class StreamParser implements Parser {
 		case IF:
 			return parseIfElseStmt();
 		case DO:
-			return parseDoWhileStmt();
+			parseDoWhileStmt();
 		/*fatto da me fine*/
 		}
 	}
@@ -192,18 +192,38 @@ public class StreamParser implements Parser {
 		return new ForEachStmt(ident, exp, stmts);
 	}
 	//fatto da me inizio  modifica:da fare
+	// 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StmtSeq '}')?
 	private IfElseStmt parseIfElseStmt() throws ParserException {
-		consume(FOR); // or tryNext();
-		Ident ident = parseIdent();
-		consume(IN);
+		consume(IF); // or tryNext();
+		consume(OPEN_PAR);
 		Exp exp = parseExp();
+		consume(CLOSE_PAR);
 		consume(OPEN_BLOCK);
 		StmtSeq stmts = parseStmtSeq();
 		consume(CLOSE_BLOCK);
-		return new IfElseStmt(Exp, stmt, stmts);
+		if(tokenizer.tokenType() == ELSE) {
+			tryNext();
+			consume(OPEN_BLOCK);
+			StmtSeq stmts2 = parseStmtSeq();
+			consume(CLOSE_BLOCK);
+			return new IfElseStmt(exp, stmts, stmts2);
+		}
+		return new IfElseStmt(exp, stmts);
 	}
 	
-	private 
+	//'do' '{' StmtSeq '}' 'while' '('Exp')'
+	private DoWhileStmt parseDoWhileStmt() throws ParserException {
+		consume(DO);
+		consume(OPEN_BLOCK);
+		StmtSeq stmts = parseStmtSeq();
+		consume(CLOSE_BLOCK);
+		consume(WHILE);
+		consume(OPEN_PAR);
+		Exp exp = parseExp();
+		consume(CLOSE_PAR);
+		return new DoWhileStmt(stmts,exp);
+		
+	}
 	// fatto da me inizio
 	private Exp parseExp() throws ParserException {
 		System.out.println("INIZIO (StreamParser) parseExp");
