@@ -222,13 +222,12 @@ public class StreamParser implements Parser {
 		
 	}
 	// fatto da me inizio
+
 	private Exp parseExp() throws ParserException {
 //		System.out.println("INIZIO (StreamParser) parseExp");
 //		System.out.println("	chiamo parseAdd");
 		Exp exp = parseEquality();
 		System.out.println("	exp: "+exp);
-		tryNext(); //vado avanti(?)
-		System.out.println("        dopo trynext :"+tokenizer.tokenType());
 		if (tokenizer.tokenType() == LOGICAND) {
 //			System.out.println("	chiamo tryNext");
 			tryNext();
