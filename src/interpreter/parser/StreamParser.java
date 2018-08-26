@@ -12,7 +12,7 @@ Prog ::= StmtSeq 'EOF'
  Exp ::= Add ('::' Exp)?
  Add ::= Mul ('+' Mul)*
  Mul::= Atom ('*' Atom)*
- Atom ::= '-' Atom | '[' ExpSeq ']' | NUM | ID | '(' Exp ')'
+ Atom ::= '-' Atom | '[' ExpSeq ']' | BOOL | BIN | NUM | ID | '(' Exp ')'
 
 */
 
@@ -62,11 +62,11 @@ public class StreamParser implements Parser {
 
 	@Override
 	public Prog parseProg() throws ParserException {
-		System.out.println("INIZIO (StreamParser) ParseProg"); //CANCELLA
+		System.out.println("INIZIO (StreamParser) ParseProg"); //CANCELLA 
 		System.out.println("	chiamo tryNext"); //CANCELLA
 		tryNext(); // one look-ahead symbol
 		Prog prog = new ProgClass(parseStmtSeq());
-		System.out.println("	chiamo match"); //CANCELLA
+		System.out.println("	chiamo match"); //CANCELLA 
 		match(EOF);
 		System.out.println("FINE (StreamParser) ParseProg"); //CANCELLA
 		return prog;
@@ -233,6 +233,8 @@ public class StreamParser implements Parser {
 		switch (tokenizer.tokenType()) {
 		default:
 			unexpectedTokenError();
+		case BOOL:
+			return parseBool();
 		case NUM:
 			System.out.println("FINE (StreamParser) ParseAtom caso NUM"); //CANCELLA
 			System.out.println("    chiamo parseNum");
@@ -255,7 +257,13 @@ public class StreamParser implements Parser {
 			return parseRoundPar();
 		}
 	}
-
+	/*fatto da me inizio*/
+	private BoolLiteral parseBool() throws ParserException {
+		boolean val = tokenizer.boolValue();
+		consume(BOOL); // or tryNext();
+		return new BoolLiteral(val);
+	}
+	/*fatto da me fine*/
 	private IntLiteral parseNum() throws ParserException {
 		System.out.println("INIZIO (StreamParser) ParseNUM "); //CANCELLA
 		System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
