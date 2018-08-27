@@ -10,6 +10,6 @@ public class Get extends UnaryOp {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return null;
+		return visitor.visitGet(exp);
 	}
 }

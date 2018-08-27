@@ -186,7 +186,6 @@ public class StreamParser implements Parser {
 	}
 	//fatto da me inizio  modifica:da fare
 	// 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StmtSeq '}')?
-	//modifica: non riconosce exp composte dentro le parentesi dell'IF
 	private IfElseStmt parseIfElseStmt() throws ParserException {
 		System.out.println("INIZIO parseIfElseStmt");
 		consume(IF); // or tryNext();

@@ -29,6 +29,6 @@ public class IfElseStmt implements Stmt{
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitPrintStmt(exp); //modifica:da rifare
+		return visitor.visitIfElseStmt(exp, firstBlock, secondBlock); //controlla: nel caso in cui non ci sia else?
 	}
 }

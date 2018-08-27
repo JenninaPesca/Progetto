@@ -10,6 +10,6 @@ public class Empty extends UnaryOp{
 //modifica
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return null;
+		return visitor.visitEmpty(exp);
 	}
 }

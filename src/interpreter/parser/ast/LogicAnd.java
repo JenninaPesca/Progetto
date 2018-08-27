@@ -10,6 +10,6 @@ public class LogicAnd extends BinaryOp{
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitPrefix(left, right);
+		return visitor.visitLogicAnd(left, right);
 	}
 }

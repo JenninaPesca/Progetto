@@ -10,7 +10,7 @@ public class Equality extends BinaryOp {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitPrefix(left, right);
+		return visitor.visitEquality(left, right);
 	}
 	
 }

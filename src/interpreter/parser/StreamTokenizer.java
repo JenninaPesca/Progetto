@@ -107,6 +107,7 @@ public class StreamTokenizer implements Tokenizer {
 			tokenString = "";
 			try {
 				if (hasNext && !scanner.hasNext()) {
+					System.out.println("EOF");
 					hasNext = false;
 					return tokenType = EOF;
 				}
