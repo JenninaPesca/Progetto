@@ -2,14 +2,14 @@ package interpreter.parser.ast;
 
 import interpreter.visitors.Visitor;
 
-public class Bang extends UnaryOp{
+public class Not extends UnaryOp{
 	
-	public Bang(Exp exp) {
+	public Not(Exp exp) {
 		super(exp);
 	}
 //modifica
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitBang(exp);
+		return visitor.visitNot(exp);
 	}
 }

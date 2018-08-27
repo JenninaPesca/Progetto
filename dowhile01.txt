@@ -1,0 +1,5 @@
+// tests scoping rules for do while
+var x=1;
+var y=false;
+do{x=x+1;var x=true;y=x}while(!(x==5));
+print y

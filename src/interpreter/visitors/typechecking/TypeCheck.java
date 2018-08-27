@@ -51,7 +51,33 @@ public class TypeCheck implements Visitor<Type> {
 		env.exitLevel();
 		return null;
 	}
-
+/*fatto da me inizio*/
+	//@Override 
+	public Type visitIfThenStmt(Exp exp, StmtSeq then_seq) {
+		BOOL.checkEqual(exp.accept(this)); 	//BOOL.checkEqual(exp.accept(this).getListElemType());
+		env.enterLevel();
+		then_seq.accept(this);
+		env.exitLevel();
+		return null;
+	}
+	
+	public Type visitIfThenElseStmt(Exp exp, StmtSeq then_seq, StmtSeq else_seq) {
+		visitIfThenStmt(exp, then_seq);
+		env.enterLevel();
+		else_seq.accept(this);
+		env.exitLevel();
+		return null;
+	}
+	
+	public Type visitDoWhile(StmtSeq block, Exp exp) {
+		env.enterLevel();
+		block.accept(this);
+		env.exitLevel();
+		BOOL.checkEqual(exp.accept(this)); 	//BOOL.checkEqual(exp.accept(this).getListElemType());
+		return null;	
+	}
+	
+/*fatto da me fine*/
 	@Override
 	public Type visitPrintStmt(Exp exp) {
 		exp.accept(this);
@@ -114,7 +140,23 @@ public class TypeCheck implements Visitor<Type> {
 	public Type visitSign(Exp exp) {
 		return INT.checkEqual(exp.accept(this));
 	}
-
+	
+	/*fatto da me inizio*/
+	public Type visitNot(Exp exp) {
+		BOOL.checkEqual(exp.accept(this));
+		return BOOL;
+	}
+	
+	public Type VisitOpt(Exp exp) {
+		exp.accept(this);
+		return OPT;
+	}
+	
+	public Type VisitEmpty(Exp exp) {
+		
+		return OPT;
+	}
+	/*fatto da me fine*/
 	@Override
 	public Type visitIdent(String name) {
 		return env.lookup(new SimpleIdent(name));

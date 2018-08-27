@@ -20,7 +20,7 @@ public class DoWhileStmt implements Stmt {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitDoWhile(block, exp);
+		return visitor.visitDoWhileStmt(block, exp);
 	}
 
 }

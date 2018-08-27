@@ -186,7 +186,7 @@ public class StreamParser implements Parser {
 	}
 	//fatto da me inizio  modifica:da fare
 	// 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StmtSeq '}')?
-	private IfElseStmt parseIfElseStmt() throws ParserException {
+	private IfThenStmt parseIfElseStmt() throws ParserException {
 		System.out.println("INIZIO parseIfElseStmt");
 		consume(IF); // or tryNext();
 		consume(OPEN_PAR);
@@ -197,14 +197,14 @@ public class StreamParser implements Parser {
 		consume(OPEN_BLOCK);
 		StmtSeq stmts = parseStmtSeq();
 		consume(CLOSE_BLOCK);
-		if(tokenizer.tokenType() == ELSE) {
+		/*if(tokenizer.tokenType() == ELSE) {
 			tryNext();
 			consume(OPEN_BLOCK);
 			StmtSeq stmts2 = parseStmtSeq();
 			consume(CLOSE_BLOCK);
 			return new IfElseStmt(exp, stmts, stmts2);
-		}
-		return new IfElseStmt(exp, stmts);
+		}*/
+		return new IfThenStmt(exp, stmts);
 	}
 	
 	//'do' '{' StmtSeq '}' 'while' '('Exp')'
@@ -301,8 +301,8 @@ public class StreamParser implements Parser {
 			//System.out.println("    chiamo parseIdent");
 			return parseIdent();
 		/*fatto da me inizio*/ //'!' Atom | 'opt' Atom | 'empty' Atom | 'def' Atom | 'get' Atom 
-		case BANG:
-			return parseBang();
+		case NOT:
+			return parseNot();
 		case OPT:
 			return parseOpt();
 		case EMPTY:
@@ -350,9 +350,9 @@ public class StreamParser implements Parser {
 	}
 	
 	/*fatto da me inizio*/
-	private Bang parseBang() throws ParserException {
-		consume(BANG);
-		return new Bang(parseAtom()); //controlla: perchè parse atom??
+	private Not parseNot() throws ParserException {
+		consume(NOT);
+		return new Not(parseAtom()); //controlla: perchè parse atom??
 									//perchè se devo usare operatore binario devo usare le parentesi (per le precedenze) che sono dentro ad atom
 	}
 	

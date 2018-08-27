@@ -1,0 +1,2 @@
+// correct syntax
+var l=[1];for x:(1+2)*3::l{print x+1}

@@ -13,6 +13,12 @@ public interface Visitor<T> {
 
 	T visitForEachStmt(Ident ident, Exp exp, StmtSeq block);
 
+	T visitIfThenStmt(Exp exp, StmtSeq then_seq);
+	
+	T visitIfThenElseStmt(Exp exp, StmtSeq then_seq, StmtSeq else_seq);
+	
+	T visitDoWhileStmt(StmtSeq block, Exp exp);
+	
 	T visitIntLiteral(int value);
 
 	T visitListLiteral(ExpSeq exps);
@@ -30,6 +36,8 @@ public interface Visitor<T> {
 	T visitProg(StmtSeq stmtSeq);
 
 	T visitSign(Exp exp);
+	
+	T visitNot(Exp exp);
 
 	T visitIdent(String name);
 
