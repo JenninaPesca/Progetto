@@ -69,7 +69,7 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 	
-	public Type visitDoWhile(StmtSeq block, Exp exp) {
+	public Type visitDoWhileStmt(StmtSeq block, Exp exp) {
 		env.enterLevel();
 		block.accept(this);
 		env.exitLevel();
@@ -136,12 +136,15 @@ public class TypeCheck implements Visitor<Type> {
 		return new ListType(elemType).checkEqual(right.accept(this));
 	}
 
+	/*fatto da me inizio*/ //operatori binari
+	/*fatto da me fine*/
+	
 	@Override
 	public Type visitSign(Exp exp) {
 		return INT.checkEqual(exp.accept(this));
 	}
 	
-	/*fatto da me inizio*/
+	/*fatto da me inizio*/ //operatori unari
 	public Type visitNot(Exp exp) {
 		BOOL.checkEqual(exp.accept(this));
 		return BOOL;
@@ -153,8 +156,17 @@ public class TypeCheck implements Visitor<Type> {
 	}
 	
 	public Type VisitEmpty(Exp exp) {
+		OPT.checkEqual(exp.accept(this).getOptElemType());
 		
-		return OPT;
+		return exp.toString();
+	}
+	
+	public Type VisitDef(Exp exp) {
+		return exp.accept(this).getOptElemType();
+	}
+	
+	public Type VisitGet(Exp exp) {
+		
 	}
 	/*fatto da me fine*/
 	@Override

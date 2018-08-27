@@ -10,8 +10,8 @@ Prog ::= StmtSeq 'EOF'
  Stmt ::= 'var'? ID '=' Exp | 'print' Exp |  'for' ID ':' Exp '{' StmtSeq '}' | 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StmtSeq '}')? 
  			| 'do' '{' StmtSeq '}' 'while' '('Exp')'
  ExpSeq ::= Exp (',' ExpSeq)?
- Exp ::= Equality ('&&' Exp)? | Equality
- Equality ::= Prefix ('==' Equality)* | Prefix
+ Exp ::= Eq ('&&' Exp)? | Eq
+ Eq ::= Prefix ('==' Eq)* | Prefix
  Prefix ::= Add ('::' Prefix)* | Add
  Add ::= Mul ('+' Add)* | Mul
  Mul::= Atom ('*' Mul)* | Atom
@@ -240,7 +240,7 @@ public class StreamParser implements Parser {
 		Exp exp = parsePrefix();
 		while (tokenizer.tokenType() == EQUALITY) {
 			tryNext();
-			exp = new Equality(exp, parsePrefix());
+			exp = new Eq(exp, parsePrefix());
 		}
 		return exp;
 	}

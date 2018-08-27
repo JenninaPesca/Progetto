@@ -30,6 +30,10 @@ public interface Visitor<T> {
 	T visitMul(Exp left, Exp right);
 
 	T visitPrefix(Exp left, Exp right);
+	
+	T visitAnd(Exp left, Exp right);
+	
+	T visitEq(Exp left, Exp right);
 
 	T visitPrintStmt(Exp exp);
 
@@ -38,6 +42,14 @@ public interface Visitor<T> {
 	T visitSign(Exp exp);
 	
 	T visitNot(Exp exp);
+	
+	T visitEmpty(Exp exp);
+	
+	T visitOpt(Exp exp);
+	
+	T visitget(Exp exp);
+	
+	T visitDef(Exp exp);
 
 	T visitIdent(String name);
 
