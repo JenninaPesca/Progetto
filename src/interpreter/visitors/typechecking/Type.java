@@ -12,5 +12,7 @@ public interface Type {
 			throw new TypecheckerException(toString(), ListType.TYPE_NAME);
 		return ((ListType) this).getElemType();
 	}
+	
+	/*aggiungere getOptElemType*/
 
 }
