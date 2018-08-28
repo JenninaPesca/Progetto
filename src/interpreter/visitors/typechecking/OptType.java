@@ -2,10 +2,9 @@ package interpreter.visitors.typechecking;
 
 import static java.util.Objects.requireNonNull;
 
-public class OptType {
+public class OptType implements Type{
 	private final Type elemType;
-
-	public static final String TYPE_NAME = "OPT_T";
+	public static final String TYPE_NAME = "OPT";
 
 	public OptType(Type elemType) {
 		this.elemType = requireNonNull(elemType);

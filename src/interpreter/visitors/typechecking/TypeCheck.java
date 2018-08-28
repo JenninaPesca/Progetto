@@ -52,7 +52,7 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 /*fatto da me inizio*/
-	//@Override 
+	@Override 
 	public Type visitIfThenStmt(Exp exp, StmtSeq then_seq) {
 		BOOL.checkEqual(exp.accept(this)); 	//BOOL.checkEqual(exp.accept(this).getListElemType());
 		env.enterLevel();
@@ -61,6 +61,7 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 	
+	@Override
 	public Type visitIfThenElseStmt(Exp exp, StmtSeq then_seq, StmtSeq else_seq) {
 		visitIfThenStmt(exp, then_seq);
 		env.enterLevel();
@@ -69,6 +70,7 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 	
+	@Override
 	public Type visitDoWhileStmt(StmtSeq block, Exp exp) {
 		env.enterLevel();
 		block.accept(this);
@@ -114,6 +116,13 @@ public class TypeCheck implements Visitor<Type> {
 		return INT;
 	}
 
+	/*fatto da me inizio*/
+	@Override
+	public Type visitBoolLiteral(boolean value) {
+		return BOOL;
+	}
+	/*fatto da me fine*/
+	
 	@Override
 	public Type visitIntLiteral(int value) {
 		return INT;
@@ -137,6 +146,18 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	/*fatto da me inizio*/ //operatori binari
+	@Override
+	public Type visitAnd(Exp left, Exp right) {
+		checkBinOp(left, right, BOOL);
+		return BOOL;
+	}
+	
+	@Override
+	public Type visitEq(Exp left, Exp right) {
+		Type ty = left.accept(this);
+		ty.checkEqual(right.accept(this));
+		return BOOL;
+	}
 	/*fatto da me fine*/
 	
 	@Override
@@ -145,28 +166,31 @@ public class TypeCheck implements Visitor<Type> {
 	}
 	
 	/*fatto da me inizio*/ //operatori unari
+	@Override
 	public Type visitNot(Exp exp) {
 		BOOL.checkEqual(exp.accept(this));
 		return BOOL;
 	}
+	@Override
+	public Type visitEmpty(Exp exp) {
+		return new OptType(exp.accept(this).getOptElemType()); 
+	}
 	
-	public Type VisitOpt(Exp exp) {
+	@Override
+	public Type visitOpt(Exp exp) {
 		exp.accept(this);
 		return OPT;
 	}
 	
-	public Type VisitEmpty(Exp exp) {
-		OPT.checkEqual(exp.accept(this).getOptElemType());
-		
-		return exp.toString();
+	@Override
+	public Type visitDef(Exp exp) {
+		exp.accept(this).getOptElemType();
+		return BOOL;
 	}
 	
-	public Type VisitDef(Exp exp) {
+	@Override
+	public Type visitGet(Exp exp) {
 		return exp.accept(this).getOptElemType();
-	}
-	
-	public Type VisitGet(Exp exp) {
-		
 	}
 	/*fatto da me fine*/
 	@Override
@@ -187,5 +211,4 @@ public class TypeCheck implements Visitor<Type> {
 		Type found = first.accept(this);
 		return found.checkEqual(rest.accept(this));
 	}
-
 }

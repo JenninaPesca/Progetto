@@ -13,11 +13,13 @@ public interface Visitor<T> {
 
 	T visitForEachStmt(Ident ident, Exp exp, StmtSeq block);
 
-	T visitIfThenStmt(Exp exp, StmtSeq then_seq);
+	T visitIfThenStmt(Exp exp, StmtSeq then_seq); //v
 	
-	T visitIfThenElseStmt(Exp exp, StmtSeq then_seq, StmtSeq else_seq);
+	T visitIfThenElseStmt(Exp exp, StmtSeq then_seq, StmtSeq else_seq); //v
 	
-	T visitDoWhileStmt(StmtSeq block, Exp exp);
+	T visitDoWhileStmt(StmtSeq block, Exp exp); //v
+	
+	T visitBoolLiteral(boolean value); //v
 	
 	T visitIntLiteral(int value);
 
@@ -31,9 +33,9 @@ public interface Visitor<T> {
 
 	T visitPrefix(Exp left, Exp right);
 	
-	T visitAnd(Exp left, Exp right);
+	T visitAnd(Exp left, Exp right); //v
 	
-	T visitEq(Exp left, Exp right);
+	T visitEq(Exp left, Exp right); //v
 
 	T visitPrintStmt(Exp exp);
 
@@ -41,15 +43,15 @@ public interface Visitor<T> {
 
 	T visitSign(Exp exp);
 	
-	T visitNot(Exp exp);
+	T visitNot(Exp exp); //v
 	
-	T visitEmpty(Exp exp);
+	T visitEmpty(Exp exp); //v
 	
-	T visitOpt(Exp exp);
+	T visitOpt(Exp exp); //v
 	
-	T visitget(Exp exp);
+	T visitGet(Exp exp); //v
 	
-	T visitDef(Exp exp);
+	T visitDef(Exp exp); //v
 
 	T visitIdent(String name);
 
