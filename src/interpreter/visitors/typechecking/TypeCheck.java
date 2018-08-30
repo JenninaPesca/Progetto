@@ -69,7 +69,7 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 	
-	public Type visitDoWhile(StmtSeq block, Exp exp) {
+	public Type visitDoWhileStmt(StmtSeq block, Exp exp) {
 		env.enterLevel();
 		block.accept(this);
 		env.exitLevel();
@@ -175,5 +175,4 @@ public class TypeCheck implements Visitor<Type> {
 		Type found = first.accept(this);
 		return found.checkEqual(rest.accept(this));
 	}
-
 }
