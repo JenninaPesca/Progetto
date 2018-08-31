@@ -23,9 +23,9 @@ public class StreamTokenizer implements Tokenizer {
 		// remark: groups must correspond to the ordinal of the corresponding
 		// token type
 		final String boolRegEx = "true | false"; //controlla: espressione regolare da fare o no???
-		final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 1
-		final String numRegEx = "(0|[1-9][0-9]*)"; // group 2
-		final String skipRegEx = "(\\s+|//.*)"; // group 3
+		final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 2
+		final String numRegEx = "(0|[1-9][0-9]*)"; // group 3
+		final String skipRegEx = "(\\s+|//.*)"; // group 4
 		final String symbolRegEx = "\\+|\\*|=|\\(|\\)|;|,|\\{|\\}|-|::|:|\\[|\\]";
 		regEx = boolRegEx + "|" + identRegEx + "|" + numRegEx + "|" + skipRegEx + "|" + symbolRegEx;
 	}

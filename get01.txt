@@ -1,0 +1,2 @@
+// tests get, empty and opt
+print get opt 1==1 && get opt opt 1==opt 1 && get opt [1]==[1] 

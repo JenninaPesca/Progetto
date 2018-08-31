@@ -1,0 +1,2 @@
+// tests def, empty and opt
+print def opt 1 && def opt opt 1 && !def empty opt 1 && !def empty opt opt 1 && !def empty empty opt 1

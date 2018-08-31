@@ -1,0 +1,6 @@
+// tests functional semantics of operators
+var l1=[1];
+var l2=2::l1;
+var o1=opt 1;
+var o2=empty o1;
+print l1==[1] && o1==opt 1

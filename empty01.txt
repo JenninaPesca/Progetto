@@ -1,0 +1,2 @@
+// tests empty idempotency
+print empty opt 0 == empty empty opt 1

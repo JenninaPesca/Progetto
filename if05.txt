@@ -1,0 +1,4 @@
+// tests if_then_else
+var f=false;
+if(true){f=true}else{f=false};
+print f
