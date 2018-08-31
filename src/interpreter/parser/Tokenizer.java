@@ -6,7 +6,7 @@ public interface Tokenizer extends AutoCloseable {
 
 	String tokenString();
 
-	boolean boolValue();
+	int binValue();
 	
 	int intValue();
 

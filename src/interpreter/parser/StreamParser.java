@@ -288,8 +288,12 @@ public class StreamParser implements Parser {
 		switch (tokenizer.tokenType()) {
 		default:
 			unexpectedTokenError();
-		case BOOL:
-			return parseBool();
+		/*--fatto da me-- inizio*/
+		case BIN:
+			System.out.println("FINE (StreamParser) ParseAtom caso BIN"); //CANCELLA
+			System.out.println("    chiamo parseBin");
+			return parseBin();
+		/*--fatto da me-- fine*/
 		case NUM:
 			//System.out.println("FINE (StreamParser) ParseAtom caso NUM"); //CANCELLA
 			//System.out.println("    chiamo parseNum");
@@ -323,22 +327,30 @@ public class StreamParser implements Parser {
 			//System.out.println("    chiamo parseRoundPar");
 			return parseRoundPar();
 		}
+	}	
+	/*--fatto da me-- inizio*/
+	private BinLiteral parseBin() throws ParserException {
+System.out.println("INIZIO (StreamParser) ParseBin "); //CANCELLA
+System.out.println("	guardo cosa c'� dentro tokenizer.intValue();"); //CANCELLA
+		String pref = (tokenizer.tokenString()).substring(0, 2);
+System.out.println("	pref: "+pref);
+		int val = tokenizer.binValue();
+System.out.println("	val: "+val); //CANCELLA
+System.out.println("     chiamo consume con BIN");
+		consume(BIN); // or tryNext();
+System.out.println("FINE (StreamParser) parseNum");
+		return new BinLiteral(pref, val);
 	}
-	/*fatto da me inizio*/
-	private BoolLiteral parseBool() throws ParserException {
-		boolean val = tokenizer.boolValue();
-		consume(BOOL); // or tryNext();
-		return new BoolLiteral(val);
-	}
-	/*fatto da me fine*/
+	/*--fatto da me-- fine*/
+	
 	private IntLiteral parseNum() throws ParserException {
-		//System.out.println("INIZIO (StreamParser) ParseNUM "); //CANCELLA
-		//System.out.println("	guardo cosa c'è dentro tokenizer.intValue();"); //CANCELLA
+System.out.println("INIZIO (StreamParser) ParseNUM "); //CANCELLA
+System.out.println("	guardo cosa c'� dentro tokenizer.intValue();"); //CANCELLA
 		int val = tokenizer.intValue();
-		//System.out.println("	val: "+val); //CANCELLA
-		//System.out.println("     chiamo consume con NUM");
+System.out.println("	val: "+val); //CANCELLA
+System.out.println("     chiamo consume con NUM");
 		consume(NUM); // or tryNext();
-		//System.out.println("FINE (StreamParser) parseNum");
+System.out.println("FINE (StreamParser) parseNum");
 		return new IntLiteral(val);
 	}
 
