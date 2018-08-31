@@ -89,25 +89,25 @@ public class StreamTokenizer implements Tokenizer {
 		if (scanner.group(BOOL.ordinal()) != null) { // NUM
 			tokenType = BOOL;
 			boolValue = Boolean.parseBoolean(tokenString);
-			System.out.println("       boolVallue: "+boolValue);
-			System.out.println("FINE (StreamTokenizer) checkType num"); //CANCELLA
+//			System.out.println("       boolVallue: "+boolValue);
+//			System.out.println("FINE (StreamTokenizer) checkType num"); //CANCELLA
 			return;
 		}/*fatto da me fine*/
 		//System.out.println(" 	chiamo scanner.group con "+ NUM.ordinal()); //CANCELLA
 		if (scanner.group(NUM.ordinal()) != null) { // NUM
 			tokenType = NUM;
 			intValue = Integer.parseInt(tokenString);
-			System.out.println("FINE (StreamTokenizer) checkType num"); //CANCELLA
+//			System.out.println("FINE (StreamTokenizer) checkType num"); //CANCELLA
 			return;
 		}
 		//System.out.println(" 	chiamo scanner.group con "+ SKIP.ordinal()); //CANCELLA
 		if (scanner.group(SKIP.ordinal()) != null) { // SKIP
 			tokenType = SKIP;
-			System.out.println("FINE (StreamTokenizer) checkType skip"); //CANCELLA
+//			System.out.println("FINE (StreamTokenizer) checkType skip"); //CANCELLA
 			return;
 		}
 		tokenType = symbols.get(tokenString); // a symbol
-		System.out.println("FINE (StreamTokenizer) checkType symbol"); //CANCELLA
+//		System.out.println("FINE (StreamTokenizer) checkType symbol"); //CANCELLA
 		if (tokenType == null)
 			throw new AssertionError("Fatal error");
 	}
@@ -119,9 +119,8 @@ public class StreamTokenizer implements Tokenizer {
 			tokenType = null;
 			tokenString = "";
 			try {
-				//osserva: caso eof, perch� non lo prende??
 				if (hasNext && !scanner.hasNext()) {
-					System.out.println("EOF");
+//					System.out.println("EOF");
 					hasNext = false;
 					return tokenType = EOF;
 				}

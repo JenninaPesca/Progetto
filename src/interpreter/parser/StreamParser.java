@@ -77,7 +77,7 @@ public class StreamParser implements Parser {
 	private StmtSeq parseStmtSeq() throws ParserException {
 		//System.out.println("INIZIO (StreamParser) ParseStmtSeq"); //CANCELLA
 		Stmt stmt = parseStmt();
-		System.out.println("	stmt: "+stmt); //CANCELLA
+//		System.out.println("	stmt: "+stmt); //CANCELLA
 		if (tokenizer.tokenType() == STMT_SEP) {
 			//System.out.println("	chiama tryNext"); //CANCELLA
 			tryNext();
@@ -183,12 +183,12 @@ public class StreamParser implements Parser {
 	//fatto da me inizio  modifica:da fare
 	// 'if' '('Exp')' '{'StmtSeq'}' ('else' '{' StmtSeq '}')?
 	private IfThenStmt parseIfElseStmt() throws ParserException {
-		System.out.println("INIZIO parseIfElseStmt");
+//		System.out.println("INIZIO parseIfElseStmt");
 		consume(IF); // or tryNext();
 		consume(OPEN_PAR);
 //		System.out.println("       chiamo parseexp");
 		Exp exp = parseExp();
-		System.out.println("      consume close:par");
+//		System.out.println("      consume close:par");
 		consume(CLOSE_PAR);
 		consume(OPEN_BLOCK);
 		StmtSeq stmts = parseStmtSeq();
@@ -222,7 +222,7 @@ public class StreamParser implements Parser {
 //		System.out.println("INIZIO (StreamParser) parseExp");
 //		System.out.println("	chiamo parseAdd");
 		Exp exp = parseEquality();
-		System.out.println("	exp: "+exp);
+//		System.out.println("	exp: "+exp);
 		if (tokenizer.tokenType() == LOGICAND) {
 //			System.out.println("	chiamo tryNext");
 			tryNext();
