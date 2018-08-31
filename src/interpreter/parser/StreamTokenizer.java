@@ -169,7 +169,6 @@ public class StreamTokenizer implements Tokenizer {
 	/*fatto da me fine*/
 	@Override
 	public int intValue() {
-=======
 //		System.out.println("INIZIO (StreamTokenizer) intValue"); //CANCELLA
 //		System.out.println(" 	chiamo checkvalidtoken con num"); //CANCELLA
 		checkValidToken(NUM);
