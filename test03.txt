@@ -1,0 +1,8 @@
+// correct syntax
+var s=[1,2,3];
+s=-1*2+3::-(1*(2+3))::s;
+for x:s{
+    for y:s{
+    	print x::[y]
+    }
+}    
