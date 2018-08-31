@@ -1,0 +1,5 @@
+// tests scoping rules for if_then_else
+var x=1;
+if(x==1){var x=[1];x=2::x}else{var x=false;x=!x};
+if(!(x==1)){var x=[1];x=2::x}else{var x=false;x=!x};
+print x==1

@@ -15,8 +15,8 @@ public class BoolValue extends PrimValue<Boolean> {
 		return value.equals(((BoolValue) obj).value);
 	}
 
-	/*@Override
-	public int asInt() {
+	@Override
+	public boolean asBool() {
 		return value;
-	}*/
+	}
 }

@@ -9,8 +9,8 @@ public interface Value {
 	default ListValue asList() {
 		throw new EvaluatorException("Expecting a list value");
 	}
-	//fatto da me 
-	default BoolValue asBool() {
+	//fatto da me inizio
+	default boolean asBool() {
 		throw new EvaluatorException("Expecting a bool value");
 	}
 	
@@ -21,4 +21,5 @@ public interface Value {
 	default OptValue asOptValue() {
 		throw new EvaluatorException("Expecting a Opt value");
 	}
+	//fatto da me fine
 }

@@ -45,8 +45,7 @@ public class Eval implements Visitor<Value> {
 	/*fatto da me inizio*/
 	@Override
 	public Value visitBoolLiteral(boolean value) {
-		//TODO
-		return null;
+		return new BoolValue(value);
 	}
 	/*fatto da me fine*/
 	/*operatori binari*/
@@ -68,14 +67,17 @@ public class Eval implements Visitor<Value> {
 	/*fatto da me inizio*/
 	@Override
 	public Value visitAnd(Exp left, Exp right) {
-		//TODO
-		return null;
+		if(left.accept(this).asBool()) 
+			if (right.accept(this).asBool())
+				return new BoolValue(true);
+		return new BoolValue(false);
 	}
 	
 	@Override
 	public Value visitEq(Exp left, Exp right) {
-		//TODO
-		return null;
+		if (left.accept(this) == right.accept(this))
+			return new BoolValue(true);
+		return new BoolValue(false);
 	}
 	/*fatto da me fine*/
 	//operatori unari
@@ -86,8 +88,7 @@ public class Eval implements Visitor<Value> {
 	/*fatto da me inizio*/
 	@Override
 	public Value visitNot(Exp exp) {
-		//TODO
-		return null;
+		return new BoolValue(!exp.accept(this).asBool());
 	}
 	
 	@Override
@@ -163,19 +164,56 @@ public class Eval implements Visitor<Value> {
 	/*fatto da me inizio*/
 	@Override 
 	public Value visitIfThenStmt(Exp exp, StmtSeq then_seq) {
-		//TODO
+		if (exp.accept(this).asBool()) {
+			env.enterLevel();
+			then_seq.accept(this);
+			env.exitLevel();
+		}	
 		return null;
 	}
 	
 	@Override
 	public Value visitIfThenElseStmt(Exp exp, StmtSeq then_seq, StmtSeq else_seq) {
-		//TODO
+		if (exp.accept(this).asBool()) {
+			env.enterLevel();
+			then_seq.accept(this);
+			env.exitLevel();
+		}
+		else {
+			env.enterLevel();
+			else_seq.accept(this);
+			env.exitLevel();
+		}
+		//controlla: non duplica codice
+		//caso1
+		/*visitIfThenStmt(exp, then_seq);
+		if (!exp.accept(this).asBool()) {
+			env.enterLevel();
+			else_seq.accept(this);
+			env.exitLevel();
+		}*/
+		//caso2
+		/*
+		if (exp.accept(this).asBool())
+			visitIfThenStmt(exp, then_seq);
+		else {
+			env.enterLevel();
+			else_seq.accept(this);
+			env.exitLevel();
+		} */
 		return null;
 	}
 	
 	@Override
 	public Value visitDoWhileStmt(StmtSeq block, Exp exp) {
-		//TODO
+		env.enterLevel();
+		block.accept(this);
+		env.exitLevel();
+		while (exp.accept(this).asBool()) {
+			env.enterLevel();
+			block.accept(this);
+			env.exitLevel();
+		}
 		return null;	
 	}
 	/*fatto da me fine*/
