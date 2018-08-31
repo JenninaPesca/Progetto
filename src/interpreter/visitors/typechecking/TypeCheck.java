@@ -33,6 +33,7 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 	
+	// static semantics of expressions; a type is returned by the visitor
 	/*literal*/
 	@Override
 	public Type visitListLiteral(ExpSeq exps) {
@@ -54,8 +55,6 @@ public class TypeCheck implements Visitor<Type> {
 		return BOOL;
 	}
 	/*fatto da me fine*/
-	
-	// static semantics of expressions; a type is returned by the visitor
 	/*operatori binari*/
 	@Override
 	public Type visitAdd(Exp left, Exp right) {
